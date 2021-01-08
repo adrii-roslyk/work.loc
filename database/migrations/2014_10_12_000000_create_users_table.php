@@ -18,16 +18,13 @@ class CreateUsersTable extends Migration
             $table->engine = 'InnoDB';
             $table->id();
             $table->string('role', 50)->nullable();
-            $table->string('email')->unique();
+            $table->string('email', 100)->unique();
             $table->string('password');
             $table->string('first_name', 20)->nullable();
             $table->string('last_name', 40)->nullable();
             $table->string('country', 100)->nullable();
             $table->string('city', 100)->nullable();
             $table->string('phone', 30)->nullable();
-
-
-            //$table->foreignIdFor(Role::class, 'role_id')->default(1);
             $table->timestamps();
             $table->softDeletes();
 

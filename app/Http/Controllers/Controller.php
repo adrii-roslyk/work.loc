@@ -51,6 +51,20 @@ class Controller extends BaseController
             'success' => true
         ]);
     }
+
+    protected function booked(): JsonResponse
+    {
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    protected function unbooked(): JsonResponse
+    {
+        return response()->json([
+            'success' => true
+        ]);
+    }
 //    protected function deleted(): JsonResponse
 //    {
 //        return $this->success(null, JsonResponse::HTTP_NO_CONTENT);

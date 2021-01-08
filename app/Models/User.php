@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\VacancyController;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -48,7 +50,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'created_at' => 'timestamp:Y-m-d H:i:s',
+        'updated_at' => 'timestamp:Y-m-d H:i:s'
     ];
 
     // Relations
@@ -56,19 +59,33 @@ class User extends Authenticatable
     /**
      * @return belongsToMany
      */
-
     public function roles()
     {
         return $this->belongsToMany(Role::class)->withTimestamps();
     }
 
     /**
+     * @return belongsToMany
+     */
+    public function vacancies()
+    {
+        return $this->belongsToMany(Vacancy::class)->withTimestamps();
+    }
+
+    /**
      * @return hasMany
      */
-
     public function organizations()
     {
         return $this->hasMany(Organization::class);
+    }
+
+    /**
+     * @return hasManyThrough
+     */
+    public function hasVacancies()
+    {
+        return $this->hasManyThrough(Vacancy::class, Organization::class);
     }
 
     //Mutators

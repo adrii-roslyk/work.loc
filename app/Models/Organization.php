@@ -18,12 +18,21 @@ class Organization extends Model
         'user_id'
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => 'timestamp:Y-m-d H:i:s',
+        'updated_at' => 'timestamp:Y-m-d H:i:s'
+    ];
+
     //Relations
 
     /**
      * @return belongsTo
      */
-
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -32,7 +41,6 @@ class Organization extends Model
     /**
      * @return hasMany
      */
-
     public function vacancies()
     {
         return $this->hasMany(Vacancy::class);

@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\StatsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\VacancyController;
+use App\Http\Resources\UserResourceCollection;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +30,28 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
-Route::apiResource('user', UserController::class)->except(['store']);
-Route::apiResource('organization', OrganizationController::class);
-Route::apiResource('vacancy', VacancyController::class);
+// Authenticated
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::apiResource('user', UserController::class)->except(['store']);
+    Route::apiResource('organization', OrganizationController::class);
+    Route::apiResource('vacancy', VacancyController::class);
+
+    Route::post('vacancy-book', [VacancyController::class, 'book']);
+    Route::post('vacancy-unbook',[VacancyController::class, 'unBook']);
+
+    Route::get('stats/vacancy', [StatsController::class, 'countVacancies']);
+    Route::get('stats/organization', [StatsController::class, 'countOrganizations']);
+    Route::get('stats/user', [StatsController::class, 'countUsers']);
+
+    Route::get('workers-of-each-vacancy', [UserController::class, 'getWorkersOfEachVacancy']);
+    Route::get('workers-of-each-organization', [UserController::class, 'getWorkersOfEachOrganization']);
+});
+
+
+
+
+
+
+
+
+

@@ -31,7 +31,7 @@ class UpdateRequest extends FormRequest
             'country'=>'sometimes|string|max:100',
             'city'=>'sometimes|string|max:100',
             'phone'=>'sometimes|string|max:30',
-            'role'=>'sometimes|string'
+            'role'=>'sometimes|string|max:50'
         ];
     }
 }

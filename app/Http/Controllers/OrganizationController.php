@@ -12,6 +12,10 @@ use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Organization::class);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -60,7 +64,8 @@ class OrganizationController extends Controller
     public function update(UpdateRequest $request, Organization $organization)
     {
         $organization->update($request->validated());
-        return response()->json($organization);
+        $data = OrganizationResource::make($organization);
+        return $this->success($data);
     }
 
     /**

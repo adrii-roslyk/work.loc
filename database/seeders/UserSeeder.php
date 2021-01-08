@@ -16,11 +16,23 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(150)
+        User::factory(1)
+            ->create(['role' => 'admin',
+                      'email' => 'admin@localhost'])
+            ->first(function (User $user) {
+                $role = Role::where('name', 'admin')->get();
+                $user->roles()->attach($role);
+            });
+
+        User::factory(19)
             ->create()
             ->each(function (User $user){
-                $roles = Role::all()->random();
-                $user->roles()->attach($roles);
+                $roles = Role::where('name','!=','admin')->get();
+                foreach ($roles as $role){
+                    if ($user->role == $role->name){
+                        $user->roles()->attach($role);
+                    }
+                }
             });
     }
 }
