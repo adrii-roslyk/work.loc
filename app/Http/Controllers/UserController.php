@@ -101,7 +101,9 @@ class UserController extends Controller
         $this->authorize('getWorkersOfEachVacancy', User::class);
 
         $vacancies = Auth::user()->hasVacancies()->get();
+
         $users = $vacancies->map(function ($item){
+
             $users = collect();
             $users->put('vacancy_name', $item->vacancy_name);
             $data = UserResourceCollection::make($item->users()->get());

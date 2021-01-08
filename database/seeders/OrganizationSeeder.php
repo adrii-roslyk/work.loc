@@ -15,7 +15,7 @@ class OrganizationSeeder extends Seeder
      */
     public function run()
     {
-        Organization::factory(20)
+        Organization::factory(40)
             ->create()
             ->each(function (Organization $organization){
                 $user = User::all()->where('role','employer')->random();

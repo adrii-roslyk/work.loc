@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Vacancy;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -24,7 +25,7 @@ class UserSeeder extends Seeder
                 $user->roles()->attach($role);
             });
 
-        User::factory(19)
+        User::factory(39)
             ->create()
             ->each(function (User $user){
                 $roles = Role::where('name','!=','admin')->get();
