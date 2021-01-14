@@ -17,12 +17,14 @@ class CreateVacanciesTable extends Migration
         Schema::create('vacancies', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id();
-
-            //$table->string('status');
-
             $table->string('vacancy_name');
             $table->unsignedInteger('workers_amount');
-            $table->foreignIdFor(Organization::class, 'organization_id');
+            //$table->foreignIdFor(Organization::class, 'organization_id');
+            $table->bigInteger('organization_id')->unsigned()->nullable();
+            $table->foreign('organization_id')
+                ->references('id')
+                ->on('organizations')
+                ->onDelete('cascade');
             $table->unsignedInteger('salary');
             $table->timestamps();
             $table->softDeletes();

@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -36,7 +37,7 @@ class AuthController extends Controller
     {
         if (!auth()->once($request->validated())) {
             throw ValidationException::withMessages([
-                'email' => 'Wrong Email or Password',
+                'error' => 'These credentials do not match our records',
             ]);
         }
         /** @var User $user */
@@ -54,6 +55,7 @@ class AuthController extends Controller
     public function logout(): JsonResponse
     {
         /** @var User $user */
+
         $user = auth()->user();
         $user->currentAccessToken()->delete();
 

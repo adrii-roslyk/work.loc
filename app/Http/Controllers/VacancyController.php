@@ -11,6 +11,7 @@ use App\Http\Resources\VacancyResourceCollection;
 use App\Models\Organization;
 use App\Models\User;
 use App\Models\Vacancy;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -29,9 +30,14 @@ class VacancyController extends Controller
      *
      * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $vacancies = Vacancy::all()->whereNotIn('status', ['closed']);
+        if(Auth::user()->role == 'admin' && $request->filled('only_active') && $request->only_active == 'false'){
+            $vacancies = Vacancy::all();
+        } else {
+            $vacancies = Vacancy::all()->whereNotIn('status', ['closed']);
+        }
+
         $data = VacancyResourceCollection::make($vacancies);
         return $this->success($data);
     }
@@ -44,20 +50,31 @@ class VacancyController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $vacancy = Vacancy::create($request->validated());
-        return response()->json($vacancy, 201);
+        $organization_id = $request->organization_id;
+        $organization = Organization::all()->firstWhere('id', $organization_id);
+        if (Auth::id() == $organization->user_id) {
+            $vacancy = Vacancy::create($request->validated());
+            return response()->json($vacancy, 201);
+        } else {
+            throw new AuthorizationException();
+        }
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Vacancy  $vacancy
-     * @return VacancyResource
+     * @return JsonResponse
      */
     public function show(Vacancy $vacancy)
     {
-        //$vacancy->load('organization');
-        return VacancyResource::make($vacancy);
+        if (Auth::user()->role == 'worker') {
+            $data = VacancyResource::make($vacancy);
+        } else {
+            $vacancy->load('users');
+            $data = VacancyResource::make($vacancy);
+        }
+        return $this->success($data);
     }
 
     /**
@@ -82,6 +99,7 @@ class VacancyController extends Controller
      */
     public function destroy(Vacancy $vacancy)
     {
+        $vacancy->users()->detach();
         $vacancy->delete();
         return $this->deleted();
     }

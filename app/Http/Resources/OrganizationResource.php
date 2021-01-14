@@ -27,7 +27,9 @@ class OrganizationResource extends JsonResource
             'country'=>$this->country,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
-            'creator'=>new UserResource($this->whenLoaded('user'))
+            'creator'=>new UserResource($this->whenLoaded('user')),
+            'vacancies'=>new VacancyResourceCollection($this->whenLoaded('vacancies')),
+
         ];
     }
 }

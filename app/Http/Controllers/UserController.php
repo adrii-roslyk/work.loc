@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserResourceCollection;
@@ -59,7 +58,6 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //$this->authorize('view', $user);
         $data = UserResource::make($user);
         return $this->success($data);
     }
@@ -88,6 +86,15 @@ class UserController extends Controller
      */
     public function destroy(User $user){
 
+        $user->roles()->detach();
+        $user->organizations()->get()->each(function ($item){
+            $item->vacancies()->get()->each(function ($item){
+                $item->users()->detach();
+                $item->delete();
+            });
+        });
+        $user->organizations()->delete();
+        $user->vacancies()->detach();
         $user->delete();
         return $this->deleted();
     }

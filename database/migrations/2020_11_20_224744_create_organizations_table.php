@@ -21,7 +21,12 @@ class CreateOrganizationsTable extends Migration
                 $table->string('title')->unique();
                 $table->string('city', 100);
                 $table->string('country', 100);
-                $table->foreignIdFor(User::class, 'user_id');
+                //$table->foreignIdFor(User::class, 'user_id');
+                $table->bigInteger('user_id')->unsigned()->nullable();
+                $table->foreign('user_id')
+                    ->references('id')
+                    ->on('users')
+                    ->onDelete('cascade');
                 $table->timestamps();
                 $table->softDeletes();
             });

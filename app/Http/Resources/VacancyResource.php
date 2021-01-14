@@ -30,7 +30,8 @@ class VacancyResource extends JsonResource
             'organization'=>$this->organization,
             'salary'=>$this->salary,
             'created_at'=>$this->created_at,
-            'updated_at'=>$this->updated_at
+            'updated_at'=>$this->updated_at,
+            'workers'=>new UserResourceCollection($this->whenLoaded('users'))
         ];
     }
 }
