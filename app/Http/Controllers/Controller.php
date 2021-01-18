@@ -37,9 +37,12 @@ class Controller extends BaseController
      * @param null $data
      * @return JsonResponse
      */
-    protected function created($data = null): JsonResponse
+    protected function created($data = null, int $status = JsonResponse::HTTP_CREATED): JsonResponse
     {
-        return $this->success($data, JsonResponse::HTTP_CREATED);
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ], $status);
     }
 
     /**
@@ -65,8 +68,4 @@ class Controller extends BaseController
             'success' => true
         ]);
     }
-//    protected function deleted(): JsonResponse
-//    {
-//        return $this->success(null, JsonResponse::HTTP_NO_CONTENT);
-//    }
 }

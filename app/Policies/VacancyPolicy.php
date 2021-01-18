@@ -3,14 +3,12 @@
 namespace App\Policies;
 
 use App\Http\Requests\Vacancy\BookRequest;
-use App\Http\Requests\Vacancy\StoreRequest;
 use App\Http\Requests\Vacancy\UnBookRequest;
 use App\Models\Organization;
 use App\Models\User;
 use App\Models\Vacancy;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+
 
 class VacancyPolicy
 {

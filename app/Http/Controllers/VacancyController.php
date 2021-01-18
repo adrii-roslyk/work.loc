@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use function PHPUnit\Framework\throwException;
 use Exception;
 
 class VacancyController extends Controller
@@ -54,7 +53,8 @@ class VacancyController extends Controller
         $organization = Organization::all()->firstWhere('id', $organization_id);
         if (Auth::id() == $organization->user_id) {
             $vacancy = Vacancy::create($request->validated());
-            return response()->json($vacancy, 201);
+            $data = VacancyResource::make($vacancy);
+            return $this->created($data);
         } else {
             throw new AuthorizationException();
         }
@@ -68,11 +68,11 @@ class VacancyController extends Controller
      */
     public function show(Vacancy $vacancy)
     {
-        if (Auth::user()->role == 'worker') {
-            $data = VacancyResource::make($vacancy);
-        } else {
+        if (Auth::user()->role == 'employer' || Auth::user()->role == 'admin') {
             $vacancy->load('users');
             $data = VacancyResource::make($vacancy);
+        } else {
+        $data = VacancyResource::make($vacancy);
         }
         return $this->success($data);
     }

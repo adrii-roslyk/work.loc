@@ -71,12 +71,12 @@ class Handler extends ExceptionHandler
                 ], 401);
             }
 
-//            if ($exception instanceof ValidationException) {
-//                return response()->json([
-//                    'success' => false,
-//                    'error' => 'These credentials do not match our records'
-//                ], 401);
-//            }
+            if ($exception instanceof ValidationException) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'These credentials do not match our records'
+                ], 401);
+            }
 
             if ($exception instanceof AuthenticationException) {
                 return response()->json([
@@ -84,6 +84,8 @@ class Handler extends ExceptionHandler
                     'error' => 'Unauthenticated'
                 ], 401);
             }
+
+            return parent::render($request, $exception);
         }
     }
 }

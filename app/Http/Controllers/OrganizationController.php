@@ -6,11 +6,9 @@ use App\Http\Requests\Organization\StoreRequest;
 use App\Http\Requests\Organization\UpdateRequest;
 use App\Http\Resources\OrganizationResource;
 use App\Http\Resources\OrganizationResourceCollection;
-use App\Http\Resources\UserResourceCollection;
 use App\Http\Resources\VacancyResourceCollection;
 use App\Models\Organization;
 use App\Models\User;
-use App\Models\Vacancy;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -47,8 +45,12 @@ class OrganizationController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $organization = Organization::create($request->validated());
-        return response()->json($organization, 201);
+        $validated_data = Arr::add($request->validated(), 'user_id', Auth::id());
+        $organization = Organization::create($validated_data);
+        $organization->load('user');
+        $data = OrganizationResource::make($organization);
+
+        return $this->created($data);
     }
 
     /**
@@ -141,51 +143,11 @@ class OrganizationController extends Controller
 
                         return $data;
                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             });
         } else {
             $data = OrganizationResource::make($organization);
         }
 
-
-
-
-//       if ($workers) {
-//           $data = null;
-//       } else {
-//           $data = OrganizationResource::make($organization);
-//       }
-
-//        $data = collect();
-//        $data->push($organization);
-//
-//        //$data = $workers;
-//
-
-        //$data = OrganizationResource::make($organization);
         return $this->success($data);
     }
 
@@ -199,6 +161,7 @@ class OrganizationController extends Controller
     public function update(UpdateRequest $request, Organization $organization)
     {
         $organization->update($request->validated());
+        $organization->load('user');
         $data = OrganizationResource::make($organization);
         return $this->success($data);
     }
