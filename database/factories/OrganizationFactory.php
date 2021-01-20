@@ -24,11 +24,7 @@ class OrganizationFactory extends Factory
         return [
             'title' => $this->faker->unique()->company,
             'city'=> $this->faker->city,
-            'country' => $this->faker->country,
-
-
-            //'user_id' => $this->faker->unique()->numberBetween($min = 1, $max = 150)
-
+            'country' => $this->faker->country
         ];
     }
 }

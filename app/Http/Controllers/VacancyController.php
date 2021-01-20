@@ -72,7 +72,7 @@ class VacancyController extends Controller
             $vacancy->load('users');
             $data = VacancyResource::make($vacancy);
         } else {
-        $data = VacancyResource::make($vacancy);
+            $data = VacancyResource::make($vacancy);
         }
         return $this->success($data);
     }
@@ -105,6 +105,7 @@ class VacancyController extends Controller
     }
 
     /**
+     * Підписатися на вакансію
      *
      * @param BookRequest $request
      */
@@ -134,6 +135,7 @@ class VacancyController extends Controller
     }
 
     /**
+     * Відписатися від вакансії
      *
      * @param UnBookRequest $request
      */

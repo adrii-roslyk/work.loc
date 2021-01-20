@@ -2,11 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
@@ -33,11 +30,6 @@ class UserFactory extends Factory
             'country' => $this->faker->country,
             'city' => $this->faker->city,
             'phone' => $this->faker->e164PhoneNumber
-
-
-
-            //'email_verified_at' => now(),
-            //'remember_token' => Str::random(10),
         ];
     }
 }

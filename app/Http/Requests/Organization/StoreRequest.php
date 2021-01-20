@@ -26,7 +26,7 @@ class StoreRequest extends FormRequest
         return [
             'title'=>'required|string|max:255|unique:organizations,title',
             'country'=>'required|string|max:100',
-            'city'=>'required|string|max:100',
+            'city'=>'required|string|max:100'
         ];
     }
 }

@@ -100,6 +100,8 @@ class UserController extends Controller
     }
 
     /**
+     * Перегляд працедавцем списку робітників, що підписалися, по кожній окремій вакансії (лише
+     * тих, що він сам створив)
      *
      * @return JsonResponse
      */
@@ -122,6 +124,8 @@ class UserController extends Controller
     }
 
     /**
+     * Перегляд працедавцем списку робітників, що підписалися, за всіма вакансіями організації
+     * (лише тих, що він сам створив)
      *
      * @return JsonResponse
      */
@@ -146,7 +150,7 @@ class UserController extends Controller
 
             foreach ($data as $value){
 
-                $users->put("vacancy: {$value['vacancy_name']}, workers", $value['workers'] );
+                $users->put("vacancy: {$value['vacancy_name']}, workers", $value['workers']);
             }
 
             return $users;

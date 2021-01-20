@@ -3,18 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Organization;
-//use App\Models\Stats;
 use App\Models\Vacancy;
-use Illuminate\Http\Request;
 use App\Models\User;
-use App\Http\Resources\UserResourceCollection;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
 
 class StatsController extends Controller
 {
     /**
+     * Кількість вакансій (активних/неактивних/усього)
      *
      * @return JsonResponse
      */
@@ -30,6 +27,7 @@ class StatsController extends Controller
     }
 
     /**
+     * Кількість організацій
      *
      * @return JsonResponse
      */
@@ -45,6 +43,7 @@ class StatsController extends Controller
     }
 
     /**
+     * Кількість користувачів за ролями
      *
      * @return JsonResponse
      */

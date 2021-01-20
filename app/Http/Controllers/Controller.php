@@ -55,6 +55,9 @@ class Controller extends BaseController
         ]);
     }
 
+    /**
+     * @return JsonResponse
+     */
     protected function booked(): JsonResponse
     {
         return response()->json([
@@ -62,6 +65,9 @@ class Controller extends BaseController
         ]);
     }
 
+    /**
+     * @return JsonResponse
+     */
     protected function unbooked(): JsonResponse
     {
         return response()->json([

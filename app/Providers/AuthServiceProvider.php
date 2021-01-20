@@ -2,12 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\Stats;
-use App\Models\Vacancy;
-use App\Policies\StatsPolicy;
-use App\Policies\VacancyPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
+
 
 class AuthServiceProvider extends ServiceProvider
 {

@@ -34,6 +34,8 @@ class Vacancy extends Model
         'updated_at' => 'timestamp:Y-m-d H:i:s'
     ];
 
+    // Relations
+
     /**
      * @return belongsTo
      */

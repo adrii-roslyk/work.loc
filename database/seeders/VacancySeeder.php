@@ -16,7 +16,7 @@ class VacancySeeder extends Seeder
      */
     public function run()
     {
-        Vacancy::factory(40)
+        Vacancy::factory(100)
             ->create()
             ->each(function (Vacancy $vacancy) {
                 $organization = Organization::all()->random();

@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -27,10 +26,6 @@ class CreateUsersTable extends Migration
             $table->string('phone', 30)->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            //$table->timestamp('email_verified_at')->nullable();
-            //$table->rememberToken();
-
         });
     }
 
