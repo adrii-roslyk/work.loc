@@ -24,11 +24,9 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //'title'=>'sometimes|string|max:255|unique:organizations,title',
             'title'=>'sometimes|string|max:255',
             'country'=>'sometimes|string|max:100',
-            'city'=>'sometimes|string|max:100',
-            'user_id'=>'sometimes|numeric'
+            'city'=>'sometimes|string|max:100'
         ];
     }
 }

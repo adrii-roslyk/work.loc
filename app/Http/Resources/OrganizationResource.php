@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Organization;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Request;
 
 /**
  * Class OrganizationResource
@@ -15,7 +16,7 @@ class OrganizationResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request)
@@ -25,10 +26,11 @@ class OrganizationResource extends JsonResource
             'title'=>$this->title,
             'city'=>$this->city,
             'country'=>$this->country,
-            'created_at'=>$this->created_at,
-            'updated_at'=>$this->updated_at,
+            'created_at'=>$this->created_at->format('Y-m-d H:i:s'),
+            'updated_at'=>$this->updated_at->format('Y-m-d H:i:s'),
             'creator'=>new UserResource($this->whenLoaded('user')),
-            'vacancies'=>new VacancyResourceCollection($this->whenLoaded('vacancies'))
+            'vacancies'=>VacancyResource::collection($this->whenLoaded('vacancies')),
+            'workers'=>$this->when($this->workers, $this->workers)
         ];
     }
 }

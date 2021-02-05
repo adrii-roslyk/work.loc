@@ -29,8 +29,8 @@ class UserResource extends JsonResource
             'country'=>$this->country,
             'city'=>$this->city,
             'phone'=>$this->phone,
-            'created_at'=>$this->created_at,
-            'updated_at'=>$this->updated_at
+            'created_at'=>$this->created_at->format('Y-m-d H:i:s'),
+            'updated_at'=>$this->updated_at->format('Y-m-d H:i:s')
         ];
     }
 }

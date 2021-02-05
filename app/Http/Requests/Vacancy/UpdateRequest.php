@@ -26,7 +26,7 @@ class UpdateRequest extends FormRequest
         return [
             'vacancy_name'=>'sometimes|string|max:255',
             'workers_amount'=>'sometimes|numeric|min:1|max:9999',
-            'organization_id'=>'sometimes|numeric',
+            'organization_id'=>'sometimes|integer|exists:organizations,id',
             'salary'=>'sometimes|numeric|min:10|max:9999999'
         ];
     }

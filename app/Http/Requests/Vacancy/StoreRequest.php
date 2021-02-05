@@ -26,7 +26,7 @@ class StoreRequest extends FormRequest
         return [
             'vacancy_name'=>'required|string|max:255',
             'workers_amount'=>'required|numeric|min:1|max:9999',
-            'organization_id'=>'required|numeric',
+            'organization_id'=>'required|integer|exists:organizations,id',
             'salary'=>'required|numeric|min:10|max:9999999'
         ];
     }

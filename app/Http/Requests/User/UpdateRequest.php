@@ -24,14 +24,14 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'=>'sometimes|string|email|unique:users,email|max:100',
+            'email'=>'sometimes|string|email|max:100|unique:users,email,'.$this->route('user')->id,
             'password'=>'sometimes|string|min:6|max:20',
             'first_name'=>'sometimes|string|min:2|max:20',
             'last_name'=>'sometimes|string|min:2|max:40',
             'country'=>'sometimes|string|max:100',
             'city'=>'sometimes|string|max:100',
             'phone'=>'sometimes|string|max:30',
-            'role'=>'sometimes|exists:roles,name|not_in:admin'
+            'role'=>'sometimes|in:worker,employer'
         ];
     }
 }

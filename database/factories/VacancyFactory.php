@@ -22,7 +22,7 @@ class VacancyFactory extends Factory
     public function definition()
     {
         return [
-            'vacancy_name' => $this->faker->jobTitle,
+            'name' => $this->faker->jobTitle,
             'workers_amount' => $this->faker->numberBetween($min = 1, $max = 15),
             'salary' => $this->faker->numberBetween($min = 1000, $max = 30000)
         ];

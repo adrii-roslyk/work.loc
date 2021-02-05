@@ -16,16 +16,14 @@ class VacancySeeder extends Seeder
      */
     public function run()
     {
-        Vacancy::factory(100)
-            ->create()
-            ->each(function (Vacancy $vacancy) {
-                $organization = Organization::all()->random();
-                $vacancy->organization()->associate($organization);
-                $vacancy->save();
+        Organization::all()->each(function (Organization $organization){
+            $organization->vacancies()->saveMany(Vacancy::factory(3)->create());
+        });
 
-                $quantity = mt_rand(1, $vacancy->workers_amount);
-                $users = User::all()->where('role', 'worker')->random($quantity);
-                $vacancy->users()->attach($users);
-            });
+        Vacancy::all()->each(function (Vacancy $vacancy){
+            $quantity = mt_rand(1, $vacancy->workers_amount);
+            $users = User::where('role', 'worker')->inRandomOrder()->take($quantity)->get();
+            $vacancy->users()->attach($users);
+        });
     }
 }

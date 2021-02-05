@@ -24,8 +24,8 @@ class BookRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'=>'required|numeric',
-            'vacancy_id'=>'required|numeric'
+            'user_id'=>'required|integer|exists:users,id',
+            'vacancy_id'=>'required|integer|exists:vacancies,id'
         ];
     }
 }

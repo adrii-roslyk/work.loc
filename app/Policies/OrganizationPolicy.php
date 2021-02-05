@@ -76,26 +76,12 @@ class OrganizationPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
      *
      * @param User $user
-     * @param  \App\Models\Organization  $organization
      * @return mixed
      */
-    public function restore(User $user, Organization $organization)
+    public function statsOrganizations()
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param User $user
-     * @param  \App\Models\Organization  $organization
-     * @return mixed
-     */
-    public function forceDelete(User $user, Organization $organization)
-    {
-        //
+        return false;
     }
 }

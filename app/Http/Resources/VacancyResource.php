@@ -29,9 +29,9 @@ class VacancyResource extends JsonResource
             'workers_booked'=>$this->workers_booked,
             'organization'=>$this->organization,
             'salary'=>$this->salary,
-            'created_at'=>$this->created_at,
-            'updated_at'=>$this->updated_at,
-            'workers'=>new UserResourceCollection($this->whenLoaded('users'))
+            'created_at'=>$this->created_at->format('Y-m-d H:i:s'),
+            'updated_at'=>$this->updated_at->format('Y-m-d H:i:s'),
+            'workers'=>UserResource::collection($this->whenLoaded('users'))
         ];
     }
 }

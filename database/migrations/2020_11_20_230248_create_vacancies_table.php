@@ -14,9 +14,8 @@ class CreateVacanciesTable extends Migration
     public function up()
     {
         Schema::create('vacancies', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->id();
-            $table->string('vacancy_name');
+            $table->string('name');
             $table->unsignedInteger('workers_amount');
             //$table->foreignIdFor(Organization::class, 'organization_id');
             $table->bigInteger('organization_id')->unsigned()->nullable();

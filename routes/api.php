@@ -35,9 +35,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('stats/vacancy', [StatsController::class, 'countVacancies']);
     Route::get('stats/organization', [StatsController::class, 'countOrganizations']);
     Route::get('stats/user', [StatsController::class, 'countUsers']);
-
-    Route::get('workers-of-each-vacancy', [UserController::class, 'getWorkersOfEachVacancy']);
-    Route::get('workers-of-each-organization', [UserController::class, 'getWorkersOfEachOrganization']);
 });
 
 

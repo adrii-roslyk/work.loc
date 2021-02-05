@@ -12,7 +12,7 @@ class Vacancy extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = [
-        'vacancy_name',
+        'name',
         'workers_amount',
         'organization_id',
         'salary'
@@ -29,10 +29,7 @@ class Vacancy extends Model
      *
      * @var array
      */
-    protected $casts = [
-        'created_at' => 'timestamp:Y-m-d H:i:s',
-        'updated_at' => 'timestamp:Y-m-d H:i:s'
-    ];
+    protected $casts = [];
 
     // Relations
 
@@ -59,8 +56,8 @@ class Vacancy extends Model
      */
     public function getOrganizationAttribute()
     {
-        $organization = $this->organization()->value('title');
-        return $organization;
+        //return $this->organization->title; Undefined property: App\\Models\\Vacancy::$organization
+        return $this->organization()->value('title');
     }
 
     /**
@@ -68,20 +65,18 @@ class Vacancy extends Model
      */
     public function getWorkersBookedAttribute()
     {
-        $workers_booked = $this->users()->count('user_id');
-        return $workers_booked;
+        return $this->users()->count();
     }
 
     /**
      *@return string
      */
-    public function getStatusAttribute(){
-        $active = 'active';
-        $closed = 'closed';
+    public function getStatusAttribute()
+    {
         if ($this->workers_amount > $this->workers_booked) {
-            return $active;
+            return 'active';
         } else {
-            return $closed;
+            return 'closed';
         }
     }
 }

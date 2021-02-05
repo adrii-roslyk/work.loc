@@ -47,20 +47,34 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $casts = [
-        'created_at' => 'timestamp:Y-m-d H:i:s',
-        'updated_at' => 'timestamp:Y-m-d H:i:s'
+    protected $casts = [];
+
+    const ROLE_WORKER = 'worker';
+    const ROLE_EMPLOYER = 'employer';
+    const ROLE_ADMIN = 'admin';
+
+    const ROLE_NAMES = [
+        self::ROLE_WORKER,
+        self::ROLE_EMPLOYER,
+        self::ROLE_ADMIN
     ];
 
-    // Relations
+    protected $attributes = [
+        'role' => self::ROLE_WORKER
+    ];
 
-    /**
-     * @return belongsToMany
-     */
-    public function roles()
+    public static function boot()
     {
-        return $this->belongsToMany(Role::class)->withTimestamps();
+        parent::boot();
+
+        static::deleting(function (self $user){
+            foreach ($user->organizations as $organization){
+                $organization->delete();
+            }
+        });
     }
+
+    // Relations
 
     /**
      * @return belongsToMany

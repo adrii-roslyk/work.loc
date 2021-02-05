@@ -48,30 +48,8 @@ class Controller extends BaseController
     /**
      * @return JsonResponse
      */
-    protected function deleted(): JsonResponse
+    protected function deleted(int $status = JsonResponse::HTTP_NO_CONTENT): JsonResponse
     {
-        return response()->json([
-            'success' => true
-        ]);
-    }
-
-    /**
-     * @return JsonResponse
-     */
-    protected function booked(): JsonResponse
-    {
-        return response()->json([
-            'success' => true
-        ]);
-    }
-
-    /**
-     * @return JsonResponse
-     */
-    protected function unbooked(): JsonResponse
-    {
-        return response()->json([
-            'success' => true
-        ]);
+        return response()->json($status);
     }
 }

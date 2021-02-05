@@ -75,73 +75,8 @@ class UserPolicy
      * @param User $user
      * @return mixed
      */
-    public function countVacancies(User $user)
+    public function statsUsers()
     {
         return false;
-
-    }
-
-    /**
-     *
-     * @param User $user
-     * @return mixed
-     */
-    public function countOrganizations(User $user)
-    {
-        return false;
-    }
-
-    /**
-     *
-     * @param User $user
-     * @return mixed
-     */
-    public function countUsers(User $user)
-    {
-        return false;
-    }
-
-    /**
-     *
-     * @param User $user
-     * @return mixed
-     */
-    public function getWorkersOfEachVacancy(User $user)
-    {
-        return $user->role == 'employer';
-    }
-
-    /**
-     *
-     * @param User $user
-     * @return mixed
-     */
-    public function getWorkersOfEachOrganization(User $user)
-    {
-        return $user->role == 'employer';
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param User $user
-     * @param User $model
-     * @return mixed
-     */
-    public function restore(User $user, User $model)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param User $user
-     * @param User $model
-     * @return mixed
-     */
-    public function forceDelete(User $user, User $model)
-    {
-        //
     }
 }

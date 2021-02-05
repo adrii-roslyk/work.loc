@@ -17,7 +17,7 @@ class StatsController extends Controller
      */
     public function countVacancies()
     {
-        $this->authorize('countVacancies', User::class);
+        $this->authorize('statsVacancies', Vacancy::class);
 
         $data = collect();
         $data->put('active', Vacancy::all()->where('status', 'active')->count());
@@ -33,12 +33,12 @@ class StatsController extends Controller
      */
     public function countOrganizations()
     {
-        $this->authorize('countOrganizations', User::class);
+        $this->authorize('statsOrganizations', Organization::class);
 
         $data = collect();
         $data->put('all', Organization::withTrashed()->count());
-        $data->put('active', Organization::withTrashed()->whereNull('deleted_at')->count());
-        $data->put('softDelete', Organization::withTrashed()->whereNotNull('deleted_at')->count());
+        $data->put('active', Organization::count());
+        $data->put('softDelete', Organization::onlyTrashed()->count());
         return $this->success($data);
     }
 
@@ -49,11 +49,12 @@ class StatsController extends Controller
      */
     public function countUsers()
     {
-        $this->authorize('countUsers', User::class);
+        $this->authorize('statsUsers', User::class);
 
         $roles = User::all()->groupBy('role')->map(function ($item){
             return count($item);
         });
+
         return $this->success($roles);
     }
 

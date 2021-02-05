@@ -3,12 +3,12 @@
 namespace App\Policies;
 
 use App\Http\Requests\Vacancy\BookRequest;
-use App\Http\Requests\Vacancy\UnBookRequest;
 use App\Models\Organization;
 use App\Models\User;
 use App\Models\Vacancy;
 use Illuminate\Auth\Access\HandlesAuthorization;
-
+use Illuminate\Auth\Access\Response;
+use Exception;
 
 class VacancyPolicy
 {
@@ -52,7 +52,7 @@ class VacancyPolicy
      */
     public function create(User $user)
     {
-        return $user->role == 'employer';
+        return Organization::find(request()->organization_id)->user_id == $user->id && $user->role == 'employer';
     }
 
     /**
@@ -64,8 +64,11 @@ class VacancyPolicy
      */
     public function update(User $user, Vacancy $vacancy)
     {
+        // у каждой вакансии есть атрибут organization, поэтому получить организацию
+        // через отношение $vacancy->organization не получается
+
         $organization_id = $vacancy->organization_id;
-        $organization = Organization::all()->firstWhere('id', $organization_id);
+        $organization = Organization::where('id', $organization_id)->first();
         return $user->id == $organization->user_id;
     }
 
@@ -78,9 +81,7 @@ class VacancyPolicy
      */
     public function delete(User $user, Vacancy $vacancy)
     {
-        $organization_id = $vacancy->organization_id;
-        $organization = Organization::all()->firstWhere('id', $organization_id);
-        return $user->id == $organization->user_id;
+        return $this->update($user, $vacancy);
     }
 
     /**
@@ -89,56 +90,57 @@ class VacancyPolicy
      * @param BookRequest $request
      * @return mixed
      */
-    public function book(User $user, BookRequest $request)
+    public function book(User $user)
     {
-        $data = $request->validated();
-        $user_id = $data['user_id'];
+        $user_id = request()->user_id;
+        $vacancy_id = request()->vacancy_id;
 
-        return $user->id == $user_id && $user->role == 'worker';
+        $vacancy = Vacancy::findOrFail($vacancy_id);
+        if ($vacancy->status == 'closed') {
+            return Response::deny('This vacancy is closed');
+            //throw new Exception('This vacancy is closed');
+        }
+
+        if ($vacancy->users()->find($user_id)) {
+            return Response::deny('You have already subscribed to this vacancy');
+            //throw new Exception('You have already subscribed to this vacancy');
+        }
+
+        return  $user->id == request()->user_id && $user->role == 'worker';
     }
 
     /**
      *
      * @param User $user
-     * @param UnBookRequest $request
+     * @param BookRequest $request
      * @return mixed
      */
-    public function unBook(User $user, UnBookRequest $request)
+    public function unBook(User $user)
     {
-        $data = $request->validated();
-        $user_id = $data['user_id'];
-        $vacancy_id = $data['vacancy_id'];
+        $user_id = request()->user_id;
+        $vacancy_id = request()->vacancy_id;
+        //$user = User::findOrFail($user_id);
+        $vacancy = Vacancy::findOrFail($vacancy_id);
 
-        $vacancy = Vacancy::where('id', $vacancy_id)->first();
+        if (!$vacancy->users()->find($user_id)) {
+            return Response::deny('You are not subscribed to this vacancy');
+            //throw new Exception('You are not subscribed to this vacancy');
+        }
 
         $organization_id = $vacancy->organization_id;
-        $organization = Organization::all()->firstWhere('id', $organization_id);
+        $organization = Organization::where('id', $organization_id)->first();
         $creator = $organization->user_id;
 
         return $user->id == $user_id || $user->id == $creator;
     }
 
     /**
-     * Determine whether the user can restore the model.
      *
      * @param User $user
-     * @param Vacancy $vacancy
      * @return mixed
      */
-    public function restore(User $user, Vacancy $vacancy)
+    public function statsVacancies()
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param User $user
-     * @param Vacancy $vacancy
-     * @return mixed
-     */
-    public function forceDelete(User $user, Vacancy $vacancy)
-    {
-        //
+        return false;
     }
 }

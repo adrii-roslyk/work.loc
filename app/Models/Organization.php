@@ -23,10 +23,24 @@ class Organization extends Model
      *
      * @var array
      */
-    protected $casts = [
-        'created_at' => 'timestamp:Y-m-d H:i:s',
-        'updated_at' => 'timestamp:Y-m-d H:i:s'
-    ];
+    protected $casts = [];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (self $organization){
+            if (auth()->check()){
+                $organization->user_id = auth()->id();
+            }
+        });
+
+        static::deleting(function (self $organization){
+            foreach ($organization->vacancies as $vacancy){
+                $vacancy->delete();
+            }
+        });
+    }
 
     //Relations
 
