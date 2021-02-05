@@ -24,7 +24,7 @@ class VacancyResource extends JsonResource
         return [
             'id'=>$this->id,
             'status'=>$this->status,
-            'vacancy_name'=>$this->vacancy_name,
+            'name'=>$this->name,
             'workers_amount'=>$this->workers_amount,
             'workers_booked'=>$this->workers_booked,
             'organization'=>$this->organization,

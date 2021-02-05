@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Throwable;
+use Illuminate\Auth\Access\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -60,12 +61,12 @@ class Handler extends ExceptionHandler
 //                ], 404);
 //            }
 
-            if ($exception instanceof AuthorizationException) {
-                return response()->json([
-                    'success' => false,
-                    'error' => 'Action not allowed: AuthorizationException'
-                ], 401);
-            }
+//            if ($exception instanceof AuthorizationException) {
+//                return response()->json([
+//                    'success' => false,
+//                    'error' => 'Action not allowed: AuthorizationException'
+//                ], 403);
+//            }
 
             if ($exception instanceof ValidationException) {
                 return response()->json([
