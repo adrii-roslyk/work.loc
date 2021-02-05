@@ -20,12 +20,7 @@ class CreateOrganizationsTable extends Migration
                 $table->string('title');
                 $table->string('city', 100);
                 $table->string('country', 100);
-                //$table->foreignIdFor(User::class)->constrained();
-                $table->bigInteger('user_id')->unsigned()->nullable();
-                $table->foreign('user_id')
-                    ->references('id')
-                    ->on('users')
-                    ->onDelete('cascade');
+                $table->foreignIdFor(User::class)->nullable()->constrained();
                 $table->timestamps();
                 $table->softDeletes();
             });

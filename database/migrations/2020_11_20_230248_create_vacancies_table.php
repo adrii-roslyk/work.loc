@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Organization;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,12 +18,7 @@ class CreateVacanciesTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedInteger('workers_amount');
-            //$table->foreignIdFor(Organization::class, 'organization_id');
-            $table->bigInteger('organization_id')->unsigned()->nullable();
-            $table->foreign('organization_id')
-                ->references('id')
-                ->on('organizations')
-                ->onDelete('cascade');
+            $table->foreignIdFor(Organization::class)->nullable()->constrained();
             $table->unsignedInteger('salary');
             $table->timestamps();
             $table->softDeletes();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Organization\StoreRequest;
 use App\Http\Requests\Organization\UpdateRequest;
 use App\Http\Resources\OrganizationResource;
+use App\Http\Resources\UserResource;
 use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -102,7 +103,7 @@ class OrganizationController extends Controller
 
                     $workers_id = $users_ids->collapse()->unique();
                     $workers = User::whereIn('id', $workers_id)->get();
-                    $organization->workers = $workers;
+                    $organization->workers = UserResource::collection($workers);
             }
         });
 
